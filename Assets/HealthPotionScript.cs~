@@ -1,0 +1,35 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class HealthPotionScript : MonoBehaviour
+{
+
+	public CharacterAttributesScript Player;
+
+	public List <ObserverScript> ObserverList = new List<ObserverScript> ();
+
+	void Start ()
+	{
+		
+	}
+
+	void Update ()
+	{
+		
+	}
+
+	public void DrinkHealthPotion ()
+	{
+		Player.characterCurrentHealth -= 10;
+		NotifyInventory (InventoryNotification.INV_HEALTH, ItemNotification.NONE, gameObject);
+		//Despawn ();
+	}
+
+	public void NotifyInventory (InventoryNotification inventoryTarget, ItemNotification itemTarget, GameObject objectTarget)
+	{
+		for (int i = 0; i < ObserverList.Count; i++) {
+			ObserverList [i].NotifyInventory (inventoryTarget, itemTarget, objectTarget);
+		}
+	}
+}

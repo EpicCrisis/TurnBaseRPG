@@ -1,0 +1,34 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public enum TileType2
+{
+	SAND = 0,
+	BRICK,
+	WOOD,
+	WALL,
+};
+
+public class TileScript2 : MonoBehaviour
+{
+	public TileType2 type;
+
+	void Start ()
+	{
+		
+	}
+
+	public void InitializeTile ()
+	{
+		GetComponent<SpriteRenderer> ().sprite = TileManagerScript2.Instance.tileSpriteList [(int)type];
+		if (type != TileType2.WALL) {
+			GetComponent<BoxCollider2D> ().enabled = false;
+		}
+	}
+
+	void Update ()
+	{
+		
+	}
+}

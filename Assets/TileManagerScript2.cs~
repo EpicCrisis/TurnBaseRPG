@@ -1,0 +1,56 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class TileManagerScript2 : MonoBehaviour
+{
+	public static TileManagerScript2 Instance;
+
+	public List<Sprite> tileSpriteList = new List<Sprite> ();
+
+	public GameObject tilePrefab;
+
+	int ROW_COUNT = 12;
+	int COL_COUNT = 20;
+
+	float tileSize = 0.64f;
+
+	public Vector2[,] posMap = new Vector2[20, 12];
+
+	void Awake ()
+	{
+		Instance = this;
+	}
+
+	void Start ()
+	{
+		GenerateTileMap ();
+	}
+
+	void GenerateTileMap ()
+	{
+		for (int j = 0; j < COL_COUNT; j++) {
+			for (int i = 0; i < ROW_COUNT; i++) {
+				new Vector3 (j * tileSize - COL_COUNT / 2f * tileSize + tileSize / 2f,
+					i * tileSize - ROW_COUNT / 2f * tileSize + tileSize / 2f);
+				GameObject obj = (GameObject)Instantiate (tilePrefab, new Vector3 (j * tileSize - COL_COUNT / 2f * tileSize + tileSize / 2f,
+					                 i * tileSize - ROW_COUNT / 2f * tileSize + tileSize / 2f), Quaternion.identity);
+				posMap [j, i] = obj.transform.position;
+
+				TileScript2 tileScript = obj.GetComponent<TileScript2> ();
+				if (tileScript != null) {
+					//logic to select tile type
+					if (i == 0 || i == ROW_COUNT || j == 0 || j == COL_COUNT) {
+						tileScript.type = TileType2.WALL;
+					}
+					//!
+				}
+			}
+		}
+	}
+
+	void Update ()
+	{
+		
+	}
+}

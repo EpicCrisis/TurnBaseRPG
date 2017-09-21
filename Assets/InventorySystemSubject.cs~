@@ -1,0 +1,40 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public enum CharacterInventory
+{
+	PLAYER = 0,
+}
+
+public enum CharacterItems
+{
+	HEALTH_POTION = 0,
+	MANA_POTION,
+	DAGGER,
+	SWORD,
+	LEATHER_ARMOUR,
+	STEEL_ARMOUR,
+}
+
+public class InventorySystemSubject : MonoBehaviour
+{
+	
+	public static InventorySystemSubject instance;
+
+	void Awake ()
+	{
+		instance = this;
+	}
+
+	void Start ()
+	{
+		
+	}
+
+	void Update ()
+	{
+		
+	}
+}

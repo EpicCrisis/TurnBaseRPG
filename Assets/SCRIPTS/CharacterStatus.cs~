@@ -1,0 +1,70 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public enum CharacterTarget
+{
+	PLAYER = 0,
+	JACKSCOTT,
+	BIGMACD,
+	LILMACD,
+	RANDO,
+	BOSSANOVA,
+};
+
+public enum ActionType
+{
+	QUICK_STRIKE = 0,
+	CRITICAL_HIT,
+	STUN_BASH,
+	FIREBALL,
+	DECAY,
+	DEFEND,
+};
+
+public enum CharacterStatus
+{
+	NONE = 0,
+	//damage over time
+	BURN,
+	//skip turn
+	STUN,
+	//decrease attack
+	WEAK,
+	//decrease defense
+	BREAK,
+};
+
+public enum ItemType
+{
+
+};
+
+public class CharacterAttributesScript : MonoBehaviour
+{
+
+	public string characterNameString;
+
+	public int characterMaxHealth = 0;
+	public int characterCurrentHealth = 0;
+	public int characterMaxMana = 0;
+	public int characterCurrentMana = 0;
+	public int characterPhysicalAttack = 0;
+	public int characterPhysicalDefense = 0;
+	public int characterMagicalAttack = 0;
+	public int characterMagicalDefense = 0;
+	public int characterAgility = 0;
+	public int characterExperience = 0;
+	public int characterLevel = 0;
+	public int characterPoints = 0;
+
+	void Start ()
+	{
+		
+	}
+
+	void Update ()
+	{
+		
+	}
+}

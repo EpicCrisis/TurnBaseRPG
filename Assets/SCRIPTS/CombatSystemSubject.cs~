@@ -1,0 +1,238 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public enum CharacterTarget
+{
+	PLAYER = 0,
+	JACKSCOTT,
+	BIGMACD,
+	LILMACD,
+	RANDO,
+	BOSSANOVA,
+}
+
+public enum ActionType
+{
+	QUICK_STRIKE = 0,
+	CRITICAL_HIT,
+	STUN_BASH,
+	FIREBALL,
+	DECAY,
+	DEFEND,
+}
+
+public enum CharacterStatus
+{
+	NONE = 0,
+	//damage over time
+	BURN,
+	//skip turn
+	STUN,
+	//decrease attack
+	WEAK,
+	//decrease defense
+	BREAK,
+};
+
+public class CombatSystem : MonoBehaviour
+{
+
+	public static CombatSystem instance;
+
+	public List <CombatSystemObserve> combatObserverList = new List<CombatSystemObserve> ();
+
+	GameManagerScript gameManager;
+
+	CombatSystemObserve combatSystemObserve;
+
+	void Awake ()
+	{
+		instance = this;
+
+		/*
+		if (instance = null) {
+			instance = this;
+		} else if (instance != this) {
+			Destroy (this.gameObject);
+		}
+		
+		DontDestroyOnLoad (this.gameObject);
+		*/
+	}
+
+	void Start ()
+	{
+		gameManager = FindObjectOfType <GameManagerScript> ();
+
+		combatSystemObserve = FindObjectOfType<CombatSystemObserve> ();
+	}
+
+	void Update ()
+	{
+		//update combat here
+		CheckCharacters ();
+	}
+
+	void CheckCharacters ()
+	{
+		NotifyCharacter (CharacterTarget.PLAYER);
+		NotifyCharacter (CharacterTarget.JACKSCOTT);
+		NotifyCharacter (CharacterTarget.BIGMACD);
+		NotifyCharacter (CharacterTarget.LILMACD);
+		NotifyCharacter (CharacterTarget.RANDO);
+		NotifyCharacter (CharacterTarget.BOSSANOVA);
+	}
+
+	//button press to initiate attack skills
+	public void FightFunction ()
+	{
+		Debug.Log ("Click Fight");
+		gameManager.fightEmpty1.SetActive (true);
+		gameManager.fightEmpty2.SetActive (true);
+	}
+
+	//button press to exit battle screen
+	public void RunFunction ()
+	{
+		gameManager.fightEmpty1.SetActive (false);
+		gameManager.fightEmpty2.SetActive (false);
+		gameManager.curState = GameStates.OVERWORLD;
+		combatSystemObserve.battleText.text = "";
+		Debug.Log ("ExitBattle");
+	}
+
+	public void DefendFunction ()
+	{
+		NotifyAction (ActionType.DEFEND);
+	}
+
+	public void QuickStrikeFunction ()
+	{
+		NotifyAction (ActionType.QUICK_STRIKE);
+	}
+
+	public void CriticalHitFunction ()
+	{
+		NotifyAction (ActionType.CRITICAL_HIT);
+	}
+
+	public void StunBashFunction ()
+	{
+		NotifyAction (ActionType.STUN_BASH);
+	}
+
+	public void FireballFunction ()
+	{
+		NotifyAction (ActionType.FIREBALL);
+	}
+
+	public void DecayFunction ()
+	{
+		NotifyAction (ActionType.DECAY);
+	}
+
+	public void NotifyCharacter (CharacterTarget type)
+	{
+		for (int i = 0; i < combatObserverList.Count; i++) {
+			combatObserverList [i].NotifyCharacter (type);
+		}
+	}
+
+	public void NotifyAction (ActionType type)
+	{
+		for (int i = 0; i < combatObserverList.Count; i++) {
+			combatObserverList [i].NotifyAction (type);
+		}
+	}
+
+	public void SubscribeObserver (CombatSystemObserve observerScript)
+	{
+		combatObserverList.Add (observerScript);
+	}
+
+	public void UnSubscribeObserver (CombatSystemObserve observerScript)
+	{
+		combatObserverList.Remove (observerScript);
+	}
+}
+
+/*
+public enum AchievementType
+{
+	ACHIEVEMENT_1 = 0,
+	ACHIEVEMENT_2,
+	ACHIEVEMENT_3,
+	ACHIEVEMENT_4,
+	ACHIEVEMENT_5,
+	ACHIEVEMENT_6,
+}
+
+public class AchievementSubjectScript : MonoBehaviour
+{
+	public static AchievementSubjectScript Instance;
+
+	List <AchievementObserverScript> observerList = new List<AchievementObserverScript> ();
+
+	public void Awake ()
+	{
+		if (Instance == null) {
+			Instance = this;
+		} else if (Instance != this) {
+			Destroy (this.gameObject);
+		}
+
+		DontDestroyOnLoad (this.gameObject);
+	}
+
+	void Start ()
+	{
+
+	}
+
+	void Update ()
+	{
+		ButtonInteract ();
+	}
+
+	public void ButtonInteract ()
+	{
+		if (Input.GetKeyDown (KeyCode.Space)) {
+			Notify (AchievementType.ACHIEVEMENT_1);
+		}
+		if (Input.GetKeyDown (KeyCode.A)) {
+			Notify (AchievementType.ACHIEVEMENT_2);
+		}
+		if (Input.GetKeyDown (KeyCode.Alpha9)) {
+			Notify (AchievementType.ACHIEVEMENT_3);
+		}
+		if (Input.GetKeyDown (KeyCode.F)) {
+			Notify (AchievementType.ACHIEVEMENT_4);
+		}
+		if (Input.GetKeyDown (KeyCode.F)) {
+			Notify (AchievementType.ACHIEVEMENT_5);
+		}
+	}
+
+	public void Notify (AchievementType type)
+	{
+		for (int i = 0; i < observerList.Count; i++) {
+			observerList [i].Notify (type);
+		}
+	}
+
+	public void SubscribeObserver (AchievementObserverScript observerScript)
+	{
+		observerList.Add (observerScript);
+	}
+
+	public void UnSubscribeObserver (AchievementObserverScript observerScript)
+	{
+		observerList.Remove (observerScript);
+		Notify (AchievementType.ACHIEVEMENT_6);
+	}
+
+
+}
+*/
